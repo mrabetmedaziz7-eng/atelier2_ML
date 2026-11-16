@@ -30,9 +30,9 @@ class NumberedCanvas(canvas.Canvas):
         self.setFont("Helvetica", 8)
         self.setFillColor(colors.HexColor("#475569"))
         
-        # En-tête (sauf page 1)
+        # En-tête (sauf page 1) : pas de mention DSI/Machine Learning Appliqué
         if self._pageNumber > 1:
-            self.drawString(40, 810, "Machine Learning Appliqué · 3e DSI — Atelier 2 : Choisir un modèle sur preuves")
+            self.drawString(40, 810, "Atelier 2 — Choisir un modèle sur preuves")
             self.setStrokeColor(colors.HexColor("#CBD5E0"))
             self.setLineWidth(0.5)
             self.line(40, 804, 555, 804)
@@ -58,7 +58,6 @@ def creer_bloc_terminal(titre, commande, sortie, duree=None):
         textColor=colors.white,
     ))
     
-    # Commande et texte noir profond très lisible
     prompt = "PS C:\\Users\\MRAET MOHAMED AZIZ\\Desktop\\dsi3\\machine learning\\atelier2> "
     contenu = f"{prompt}{commande}\n\n{sortie.strip()}"
     
@@ -67,26 +66,23 @@ def creer_bloc_terminal(titre, commande, sortie, duree=None):
         fontName='Courier',
         fontSize=7.2,
         leading=9.6,
-        textColor=colors.HexColor("#000000"),  # Noir net et parfaitement contrasté
+        textColor=colors.HexColor("#000000"),
     ))
     
     t = Table([[header_p], [body_pre]], colWidths=[515])
     t.setStyle(TableStyle([
-        # En-tête bleu nuit / gris ardoise foncé
         ('BACKGROUND', (0,0), (0,0), colors.HexColor("#1E293B")),
         ('TOPPADDING', (0,0), (0,0), 5),
         ('BOTTOMPADDING', (0,0), (0,0), 5),
         ('LEFTPADDING', (0,0), (0,0), 10),
         ('RIGHTPADDING', (0,0), (0,0), 10),
         
-        # Corps de terminal fond gris très clair avec texte NOIR
         ('BACKGROUND', (0,1), (0,1), colors.HexColor("#F8FAFC")),
         ('TOPPADDING', (0,1), (0,1), 8),
         ('BOTTOMPADDING', (0,1), (0,1), 8),
         ('LEFTPADDING', (0,1), (0,1), 10),
         ('RIGHTPADDING', (0,1), (0,1), 10),
         
-        # Bordures nettes
         ('BOX', (0,0), (-1,-1), 1, colors.HexColor("#64748B")),
         ('LINEBELOW', (0,0), (0,0), 1, colors.HexColor("#64748B")),
     ]))
@@ -107,19 +103,10 @@ def generer_pdf(chemin_sortie):
     titre_style = ParagraphStyle(
         'TitreDoc',
         fontName='Helvetica-Bold',
-        fontSize=18,
-        leading=22,
+        fontSize=20,
+        leading=24,
         textColor=colors.HexColor("#0F172A"),
-        spaceAfter=4
-    )
-    
-    sous_titre_style = ParagraphStyle(
-        'SousTitreDoc',
-        fontName='Helvetica',
-        fontSize=10,
-        leading=13,
-        textColor=colors.HexColor("#475569"),
-        spaceAfter=12
+        spaceAfter=15
     )
     
     h1_style = ParagraphStyle(
@@ -144,33 +131,8 @@ def generer_pdf(chemin_sortie):
 
     story = []
 
-    # Page 1 : En-tête
-    story.append(Paragraph("Machine Learning Appliqué · 3e année DSI", sous_titre_style))
+    # Page 1 : Titre uniquement (sans mention académique ni bloc méta)
     story.append(Paragraph("Atelier 2 : Choisir un modèle sur preuves", titre_style))
-    story.append(Paragraph("<b>Livrable complet :</b> Traces réelles et captures de terminal de l'ensemble des étapes et tests.", sous_titre_style))
-    story.append(Spacer(1, 6))
-
-    # Tableau méta
-    meta_data = [
-        ["Cadre :", "Classification de 72 tickets de support (classes déséquilibrées)", "Métrique :", "Macro-F1 (prioritaire sur l'accuracy)"],
-        ["Plateforme :", "API Groq (palier gratuit, pause 2.1s)", "Fournisseur :", "3 architectures testées (20B, 120B, 27B)"],
-        ["Environnement :", "Windows PowerShell / Python 3.12", "Fichiers :", "Code modulaire dans atelier2/code/"]
-    ]
-    meta_table = Table(meta_data, colWidths=[80, 180, 70, 185])
-    meta_table.setStyle(TableStyle([
-        ('FONTNAME', (0,0), (-1,-1), 'Helvetica'),
-        ('FONTSIZE', (0,0), (-1,-1), 8),
-        ('TEXTCOLOR', (0,0), (0,-1), colors.HexColor("#0F172A")),
-        ('TEXTCOLOR', (2,0), (2,-1), colors.HexColor("#0F172A")),
-        ('FONTNAME', (0,0), (0,-1), 'Helvetica-Bold'),
-        ('FONTNAME', (2,0), (2,-1), 'Helvetica-Bold'),
-        ('BACKGROUND', (0,0), (-1,-1), colors.HexColor("#F1F5F9")),
-        ('BOX', (0,0), (-1,-1), 0.5, colors.HexColor("#CBD5E1")),
-        ('INNERGRID', (0,0), (-1,-1), 0.5, colors.HexColor("#E2E8F0")),
-        ('TOPPADDING', (0,0), (-1,-1), 4),
-        ('BOTTOMPADDING', (0,0), (-1,-1), 4),
-    ]))
-    story.append(meta_table)
     story.append(Spacer(1, 10))
 
     # Section 0 & 1
@@ -393,5 +355,5 @@ def generer_pdf(chemin_sortie):
     print(f"Rapport généré avec succès dans : {chemin_sortie}")
 
 if __name__ == "__main__":
-    sortie = Path(__file__).resolve().parent.parent / "Rapport_Atelier2_Executions_Captures.pdf"
+    sortie = Path(__file__).resolve().parent.parent / "Rapport_Atelier2_Executions.pdf"
     generer_pdf(str(sortie))

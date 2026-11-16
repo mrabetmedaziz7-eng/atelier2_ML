@@ -58,7 +58,6 @@ atelier2/
 │   ├── openai_gpt-oss-120b.json
 │   ├── qwen_qwen3.8-27b.json
 │   └── qwen3.8-27b_4_exemples.json
-├── Rapport_Atelier2_Executions_Captures.pdf   # Preuves d'exécution et captures de terminal
 └── README.md
 ```
 
